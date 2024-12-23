@@ -8,35 +8,30 @@ const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 const smp = new SpeedMeasurePlugin();
-const fs = require('fs');
 const chalk = require('chalk');
-const srcPath = '/src/';
-function resolve(dir) {
-  return path.resolve(__dirname, '.', dir);
-}
 const isDev = process.env.NODE_ENV === 'development';
 module.exports = smp.wrap({
   mode: isDev ? 'development' : 'production',
   entry: {
     content_script: path.resolve(__dirname, './src/content_script.ts'),
     background: path.resolve(__dirname, './src/background.ts'),
-    sidepanel: path.resolve(__dirname, './src/sidepanel.ts'),
+    sidepanel: path.resolve(__dirname, './src/sidepanel.ts')
   },
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, './dist'),
-    publicPath: './',
+    publicPath: './'
   },
   devServer: {
     compress: true,
-    port: 9000,
+    port: 9000
   },
   devtool: 'inline-source-map',
   resolve: {
     alias: {
-      '@': path.resolve(__dirname, './src'),
+      '@': path.resolve(__dirname, './src')
     },
-    extensions: ['...', '.ts', '.tsx', '.js', 'less', 'vue'],
+    extensions: ['...', '.ts', '.tsx', '.js', 'less', 'vue']
   },
   module: {
     rules: [
@@ -53,43 +48,43 @@ module.exports = smp.wrap({
                   style: false,
                   libraryName: 'lodash',
                   libraryDirectory: null,
-                  camel2DashComponentName: false,
+                  camel2DashComponentName: false
                 },
-                { style: true },
-              ]),
-            ],
+                { style: true }
+              ])
+            ]
           }),
           compilerOptions: {
-            module: 'esnext',
-          },
+            module: 'esnext'
+          }
         },
-        exclude: /node_modules/,
+        exclude: /node_modules/
       },
       {
         test: /.vue$/,
-        loader: 'vue-loader',
+        loader: 'vue-loader'
       },
       {
         test: /\.(le|c)ss$/,
         use: [
           {
-            loader: 'style-loader', // creates style nodes from JS strings
+            loader: 'style-loader' // creates style nodes from JS strings
           },
           {
-            loader: 'css-loader', // translates CSS into CommonJS
+            loader: 'css-loader' // translates CSS into CommonJS
           },
           {
             loader: 'less-loader', // compiles Less to CSS
             options: {
               lessOptions: {
                 modifyVars: {
-                  '@body-background': '#f5f5f5',
+                  '@body-background': '#f5f5f5'
                 },
-                javascriptEnabled: true,
-              },
-            },
-          },
-        ],
+                javascriptEnabled: true
+              }
+            }
+          }
+        ]
       },
       {
         test: /\.(png|jpg|gif)$/,
@@ -97,20 +92,20 @@ module.exports = smp.wrap({
           {
             loader: 'url-loader',
             options: {
-              limit: 8192,
-            },
-          },
-        ],
-      },
-    ],
+              limit: 8192
+            }
+          }
+        ]
+      }
+    ]
   },
   plugins: [
     new CopyWebpackPlugin({
       patterns: [
         { from: './manifest.json' },
         // { from: './src/styles/', to: path.resolve(__dirname, './dist/styles') },
-        { from: './resource/', to: path.resolve(__dirname, './dist/resource') },
-      ],
+        { from: './resource/', to: path.resolve(__dirname, './dist/resource') }
+      ]
     }),
     new VueLoaderPlugin(),
     require('unplugin-element-plus/webpack')({
@@ -120,7 +115,7 @@ module.exports = smp.wrap({
       filename: 'index.html',
       template: './src/index.html',
       minify: false,
-      chunks: ['sidepanel'],
+      chunks: ['sidepanel']
     }),
     // 热更新替换
     new webpack.HotModuleReplacementPlugin(),
@@ -133,12 +128,14 @@ module.exports = smp.wrap({
           console.log(chalk.blue.bold('文件修改，重新编译'));
         },
         afterAllDone() {
-          console.log(chalk.bgWhiteBright.green('编译完成，请在浏览器扩展页面加载 dist 目录进行调试'));
-        },
-      },
+          console.log(
+            chalk.bgWhiteBright.green('编译完成，请在浏览器扩展页面加载 dist 目录进行调试')
+          );
+        }
+      }
     }),
     new CleanWebpackPlugin({
-      dry: true,
+      dry: true
     })
   ],
   watchOptions: {
@@ -147,6 +144,6 @@ module.exports = smp.wrap({
     // ⽂件改变不会⽴即执⾏，⽽是会等待300ms之后再去执⾏
     aggregateTimeout: 300,
     // 原理是轮询系统⽂件有⽆变化再去更新的，默认1秒钟轮询1000次
-    poll: 1000,
-  },
+    poll: 1000
+  }
 });

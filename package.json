@@ -9,6 +9,13 @@
     "build": "cross-env NODE_ENV=production webpack"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.25.1",
+    "@vue/eslint-config-prettier": "^9.0.0",
+    "@vue/eslint-config-typescript": "^13.0.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.5",
+    "eslint-plugin-vue": "^9.23.0",
     "@types/chrome": "^0.0.287",
     "@typescript-eslint/parser": "^5.27.1",
     "@vue/compiler-sfc": "^3.5.13",
@@ -18,7 +25,6 @@
     "copy-webpack-plugin": "^10.2.4",
     "cross-env": "^7.0.3",
     "css-loader": "^6.7.1",
-    "eslint": "^7.18.0",
     "eslint-plugin-html": "^6.2.0",
     "happypack": "^5.0.1",
     "html-webpack-plugin": "^5.5.0",

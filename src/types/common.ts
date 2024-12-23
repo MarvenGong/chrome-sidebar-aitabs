@@ -1,4 +1,4 @@
 export interface ITabGroup {
-  domain: string,
-  tabs: chrome.tabs.Tab[]
+  domain: string;
+  tabs: chrome.tabs.Tab[];
 }
