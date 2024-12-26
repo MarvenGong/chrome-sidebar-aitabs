@@ -7,6 +7,7 @@ const webpack = require('webpack');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const smp = new SpeedMeasurePlugin();
 const chalk = require('chalk');
 const isDev = process.env.NODE_ENV === 'development';
@@ -108,14 +109,16 @@ module.exports = smp.wrap({
       ]
     }),
     new VueLoaderPlugin(),
-    require('unplugin-element-plus/webpack')({
-      // options
-    }),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: './src/index.html',
       minify: false,
       chunks: ['sidepanel']
+    }),
+    new webpack.DefinePlugin({
+      __VUE_OPTIONS_API__: 'true',
+      __VUE_PROD_DEVTOOLS__: 'false',
+      __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: 'false'
     }),
     // 热更新替换
     new webpack.HotModuleReplacementPlugin(),
@@ -136,7 +139,8 @@ module.exports = smp.wrap({
     }),
     new CleanWebpackPlugin({
       dry: true
-    })
+    }),
+    new BundleAnalyzerPlugin()
   ],
   watchOptions: {
     // 设置不监听的⽂件或⽂件夹，默认为空
