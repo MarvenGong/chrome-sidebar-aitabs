@@ -1,6 +1,6 @@
 {
   "name": "chrome-sidebar-aitabs",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "chrome浏览器插件，侧边栏标签页，按域名分组",
   "main": "index.js",
   "scripts": {
