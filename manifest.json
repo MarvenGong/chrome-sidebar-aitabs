@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Side Panel AiTabs",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "An ai tabs that show in chrome side panel.",
   "minimum_chrome_version": "116",
   "background": {
@@ -27,8 +27,8 @@
   ],
   "permissions": [
     "sidePanel",
-    "contextMenus",
-    "tabs"
+    "tabs",
+    "storage"
   ],
   "host_permissions": [
     "http://*/*",

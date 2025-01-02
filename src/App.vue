@@ -1,7 +1,7 @@
 <template>
   <div class="tabs-tree">
     <div
-      v-for="(item, index) in tabList"
+      v-for="(item, index) in showTabList"
       :key="index"
       class="domain-panel"
       :class="{ active: activeDomain === item.domain || currDomain === item.domain }"
@@ -15,7 +15,7 @@
         />
         <p class="title">{{ item.domain }}</p>
         <p class="count">&nbsp;({{ item?.tabs?.length }})</p>
-        <img class="right-arrow" :src="icArrowDown" alt="" srcset="" />
+        <i class="right-arrow iconfont icon-arrow-down"></i>
       </h3>
       <transition name="slide-down">
         <ul v-show="activeDomain === item.domain || currDomain === item.domain" class="tab-list">
@@ -31,7 +31,7 @@
             <div class="left-title" :data-tab-id="tab?.id">{{ tab.title }}</div>
             <div class="right-actions">
               <button title="关闭标签页" @click.stop="() => handleCloseTab(tab)">
-                <img :src="icCloseWhite" alt="" width="18" srcset="" />
+                <i class="iconfont icon-close-circle"></i>
               </button>
             </div>
           </li>
@@ -39,19 +39,35 @@
       </transition>
     </div>
   </div>
+  <footer-bar @change="handleSearch" />
 </template>
 
 <script lang="ts" setup>
-import { nextTick, onMounted, onUnmounted, ref } from 'vue';
-import { ITabGroup } from './types/common';
+import { computed, nextTick, onMounted, onUnmounted, reactive, ref } from 'vue';
+import { ISearchData, ITabGroup } from './types/common';
 import { getDomainOfUrl, wait } from './utils';
-const icCloseWhite = chrome.runtime.getURL('/resource/ic-close-white.svg');
-const icArrowDown = chrome.runtime.getURL('/resource/ic-arrow-down-white.svg');
+import FooterBar from './components/FooterBar.vue';
+
 function handleClickTab(tab: chrome.tabs.Tab) {
   if (!tab.id) return;
-  chrome.tabs.update(tab.id, { url: tab.url, active: true });
+  chrome.tabs.update(tab.id, { active: true });
 }
 const tabList = ref<ITabGroup[]>([]);
+const searchData = reactive({
+  keywords: ''
+});
+const showTabList = computed<ITabGroup[]>(() => {
+  const list = tabList.value.filter((item) => {
+    const hasTabWidthSearchTitle = item?.tabs?.some((tab) => {
+      if (!tab?.title || !tab?.url) return false;
+      return (
+        tab?.title?.indexOf(searchData.keywords) >= 0 || tab?.url?.indexOf(searchData.keywords) >= 0
+      );
+    });
+    return item?.domain.indexOf(searchData.keywords) >= 0 || hasTabWidthSearchTitle;
+  });
+  return [...list];
+});
 const activeTabId = ref(0);
 const activeDomain = ref(''); // 选中展开的域名
 const currDomain = ref(''); // 当前tab的域名
@@ -131,7 +147,10 @@ const handleCloseTab = async (tab: chrome.tabs.Tab) => {
   await chrome.tabs.remove(tab.id);
   getAllTabs();
 };
-
+const handleSearch = (data: ISearchData) => {
+  console.log('search', data);
+  searchData.keywords = data.keywords;
+};
 onMounted(async () => {
   await getAllTabs();
   const acTab = await getActiveTab();

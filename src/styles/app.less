@@ -1,6 +1,7 @@
 .tabs-tree {
   overflow-x: hidden;
   height: 100%;
+  padding-bottom: var(--footer-bar-height);
   &::-webkit-scrollbar {
     width: 3px;
   }
@@ -15,7 +16,7 @@
   object-fit: cover;
 }
 .domain-panel {
-  color: #fff;
+  color: var(--font-color);
 
   .domain-title {
     height: 32px;
@@ -29,12 +30,17 @@
     padding-right: 26px;
     cursor: default;
     position: relative;
-    &:hover {
-      background-color: #333;
-    }
+    
     .left-facicon {
-      width: 16px;
-      height: 16px;
+      width: 20px;
+      height: 20px;
+      transition: transform 0.2s;
+    }
+    &:hover {
+      background-color: var(--domain-hover-color);
+      .left-facicon {
+        transform: scale(1.5);
+      }
     }
     .title {
       padding-left: 5px;
@@ -51,12 +57,11 @@
     .right-arrow {
       position: absolute;
       right: 8px;
-      width: 12px;
-      height: 12px;
       top: 50%;
       // transform-origin: center center center;
       margin-top: -6px;
       transition: all 0.3s;
+      font-size: 12px;
     }
   }
   ul.tab-list {
@@ -70,7 +75,7 @@
       align-items: center;
       padding-right: 0;
       text-wrap: nowrap;
-      color: #fff;
+      color: var(--font-color);
       position: relative;
       &:before {
         position: absolute;
@@ -79,7 +84,7 @@
         height: calc(100% + 2px);
         left: 19px;
         top: -1px;
-        background-color: #fff;
+        background-color: var(--font-color);
         content: " ";
       }
       &:after {
@@ -89,7 +94,7 @@
         height: 1px;
         left: 20px;
         top: 15px;
-        background-color: #fff;
+        background-color: var(--font-color);
         content: " ";
       }
       .left-title {
@@ -111,26 +116,27 @@
           background-color: transparent;
           width: 32px;
           height: 32px;
-          color: #fff;
+          color: var(--font-color);
           cursor: pointer;
           text-align: center;
           border: 1px solid transparent;
           border-radius: 3px;
-          img {
+          i {
             transition: all 0.3s;
+            display: inline-block;
           }
           &:hover {
-            img {
+            i {
               transform: rotate(90deg) scale(1.2);
             }
           }
         }
       }
       &:hover {
-        background-color: #666;
+        background-color: var(--tab-hover-color);
       }
       &.active {
-        border: 1px solid #fff;
+        border: 1px solid var(--font-color);
         border-radius: 3px;
       }
     }
@@ -139,7 +145,7 @@
     .domain-title {
       .right-arrow {
         transform: rotateZ(180deg) translateY(-50%);
-        margin-top: -12px;
+        margin-top: -14px;
       }
     }
   }
