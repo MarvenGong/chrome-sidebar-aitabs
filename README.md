@@ -23,5 +23,4 @@ An ai tabs that show in chrome side panel. auto group by the domain of the page 
 ## 离线安装
 
 下载地址：
-[release-1.0.3]()
-<a download href="https://github.com/MarvenGong/chrome-sidebar-aitabs/blob/main/downloads/chrome-sidebar-aitabs-1.0.3.zip">release-1.0.3</a>
+[release-1.0.3](https://marvengong.github.io/chrome-sidebar-aitabs/chrome-sidebar-aitabs-1.0.3.zip)
