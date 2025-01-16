@@ -1,13 +1,13 @@
 {
   "name": "chrome-sidebar-aitabs",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "chrome浏览器插件，侧边栏标签页，按域名分组",
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack --watch",
     "serve": "cross-env NODE_ENV=development webpack serve",
-    "build": "cross-env NODE_ENV=production webpack",
-    "analyze": "webpack --profile --json=stats.json"
+    "build": "cross-env NODE_ENV=production webpack && node ./create-download.js",
+    "analyze": "cross-env NODE_ENV=analyze webpack --profile --json=stats.json"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.25.1",

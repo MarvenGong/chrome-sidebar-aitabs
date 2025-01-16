@@ -4,14 +4,14 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const webpack = require('webpack');
-const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
+// const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { VueLoaderPlugin } = require('vue-loader');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-const smp = new SpeedMeasurePlugin();
+// const smp = new SpeedMeasurePlugin();
 const chalk = require('chalk');
 const isDev = process.env.NODE_ENV === 'development';
-module.exports = smp.wrap({
+module.exports = {
   mode: isDev ? 'development' : 'production',
   entry: {
     content_script: path.resolve(__dirname, './src/content_script.ts'),
@@ -139,9 +139,8 @@ module.exports = smp.wrap({
     }),
     new CleanWebpackPlugin({
       dry: true
-    }),
-    new BundleAnalyzerPlugin()
-  ],
+    })
+  ].concat(process.env.NODE_ENV === 'analyze' ? [new BundleAnalyzerPlugin()] : []),
   watchOptions: {
     // 设置不监听的⽂件或⽂件夹，默认为空
     ignored: /node_modules/,
@@ -150,4 +149,4 @@ module.exports = smp.wrap({
     // 原理是轮询系统⽂件有⽆变化再去更新的，默认1秒钟轮询1000次
     poll: 1000
   }
-});
+};

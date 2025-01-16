@@ -2,3 +2,5 @@
 /dist/
 dist.zip
 .vscode
+*.crx
+*.pem

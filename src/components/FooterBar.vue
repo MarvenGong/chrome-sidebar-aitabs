@@ -43,7 +43,7 @@ const emits = defineEmits(['change']);
 const searchData = reactive({
   keywords: ''
 });
-const uiTheme = ref('dark');
+const uiTheme = ref('light');
 const themeStoreKey = 'aitab-theme';
 
 const handleSearch = () => {
@@ -62,8 +62,8 @@ async function handleSwitchTheme() {
 const initTheme = async () => {
   const obj = await chrome.storage.local.get(themeStoreKey);
   const th = obj[themeStoreKey];
-  document.querySelector('html')?.setAttribute('theme', th);
-  uiTheme.value = th;
+  document.querySelector('html')?.setAttribute('theme', th || 'light');
+  uiTheme.value = th || 'light';
 };
 
 const handleSetting = () => {
